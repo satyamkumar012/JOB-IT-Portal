@@ -43,6 +43,10 @@ app.get(/.*/, (_, res) => {
     res.sendFile(path.resolve(_dirname, "..", "frontend", "dist", "index.html"));
 });
 
-app.listen(PORT, () => {
-    console.log(`server running at port http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`server running at port http://localhost:${PORT}`);
+    });
+}
+
+export default app;
