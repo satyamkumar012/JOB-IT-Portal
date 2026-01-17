@@ -14,7 +14,7 @@ import path from "path";
 
 dotenv.config();
 // connect db
-connectDB();
+await connectDB();
 const PORT = process.env.PORT || 8080;
 const app = express();
 
