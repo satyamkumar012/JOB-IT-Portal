@@ -10,20 +10,42 @@ import Jobnotfound from './Jobnotfound'
 
 const Jobs = () => {
     const {authUser} = useSelector((store) => store.auth);
-    const {allJobs, searchText} = useSelector((store) => store.job);
+    const {allJobs, searchText, filters} = useSelector((store) => store.job);
     const [filterJobs, setFilterJobs] = useState(allJobs || []);
     const navigate = useNavigate();
 
     useEffect(() => {
+        let filteredJobs = allJobs || [];
+
+        // Apply global search text (from Hero section)
         if (searchText) {
-            const filteredJobs = allJobs ?. filter((job) => {
-                return job.title.toLowerCase().includes(searchText.toLowerCase()) || job.description.toLowerCase().includes(searchText.toLowerCase()) || job ?. location ?. toLowerCase().includes(searchText.toLowerCase())
-            }) || [];
-            setFilterJobs(filteredJobs);
-        } else {
-            setFilterJobs(allJobs || []);
+            filteredJobs = filteredJobs.filter((job) => {
+                const isTitleMatch = job?.title?.toLowerCase().includes(searchText.toLowerCase());
+                const isDescMatch = job?.description?.toLowerCase().includes(searchText.toLowerCase());
+                const isLocationMatch = job?.location?.toLowerCase()?.includes(searchText.toLowerCase());
+                return isTitleMatch || isDescMatch || isLocationMatch;
+            });
         }
-    }, [allJobs, searchText]);
+
+        // Apply specific category filters from sidebar (AND logic)
+        if (filters?.location) {
+            filteredJobs = filteredJobs.filter(job => 
+                job?.location?.toLowerCase()?.includes(filters.location.toLowerCase())
+            );
+        }
+        if (filters?.industry) {
+            filteredJobs = filteredJobs.filter(job => 
+                job?.title?.toLowerCase()?.includes(filters.industry.toLowerCase())
+            );
+        }
+        if (filters?.salary) {
+            filteredJobs = filteredJobs.filter(job => 
+                job?.salary?.toString()?.includes(filters.salary)
+            );
+        }
+
+        setFilterJobs(filteredJobs);
+    }, [allJobs, searchText, filters]);
 
 
     useEffect(() => {
@@ -32,7 +54,7 @@ const Jobs = () => {
         }
     })
     return (
-        <div className='bg-gray-100 h-screen'>
+        <div className='min-h-screen'>
             <Navbar/>
             <div className='max-w-7xl mx-auto mt-5'>
                 <div className='flex gap-5'>

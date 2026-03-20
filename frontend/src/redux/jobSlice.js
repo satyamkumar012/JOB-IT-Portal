@@ -5,6 +5,11 @@ const jobSlice = createSlice({
         allJobs: [],
         singleJobById: null,
         searchText: "",
+        filters: {
+            location: "",
+            industry: "",
+            salary: ""
+        },
         apply: false,
         adminJobs: [],
         searchAdminJobs: ""
@@ -18,6 +23,9 @@ const jobSlice = createSlice({
         },
         setSearchText: (state, action) => {
             state.searchText = action.payload;
+        },
+        setFilters: (state, action) => {
+            state.filters = { ...state.filters, ...action.payload };
         },
         setApply: (state, action) => {
             state.apply = action.payload;
@@ -34,6 +42,7 @@ export const {
     setAllJobs,
     setSingleJobById,
     setSearchText,
+    setFilters,
     setApply,
     setAdminJobs,
     setSearchAdminJobs

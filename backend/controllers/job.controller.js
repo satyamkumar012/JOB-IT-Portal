@@ -96,6 +96,11 @@ export const getAllJobs = async (req, res) => {
                         $regex: keyword,
                         $options: "i"
                     }
+                }, {
+                    location: {
+                        $regex: keyword,
+                        $options: "i"
+                    }
                 }
             ]
         };

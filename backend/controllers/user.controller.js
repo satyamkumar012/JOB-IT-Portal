@@ -160,15 +160,28 @@ export const updateProfile = async (req, res) => {
 
 
         // Handle optional file upload for resume
-        const file = req.file;
+        const file = req.files?.file?.[0];
         if (file) {
             const fileUri = getDataUri(file);
-            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+                resource_type: "auto"
+            });
 
             // Update the resume URL and original file name
             if (cloudResponse) {
                 user.profile.resume = cloudResponse.secure_url; // Save the Cloudinary URL
                 user.profile.resumeOriginalName = file.originalname; // Save the original file name
+            }
+        }
+
+        // Handle optional file upload for profile photo
+        const profilePhotoFile = req.files?.profilePhoto?.[0];
+        if (profilePhotoFile) {
+            const fileUri = getDataUri(profilePhotoFile);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
+            if (cloudResponse) {
+                user.profile.profilePhoto = cloudResponse.secure_url; // Save the Cloudinary URL
             }
         }
 

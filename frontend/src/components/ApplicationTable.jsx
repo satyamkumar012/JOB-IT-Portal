@@ -13,7 +13,7 @@ import { Badge } from "./ui/badge";
 const ApplicationTable = () => {
     const {allAppliedJobs} = useSelector(store=>store.application);
     return (
-        <Table className="bg-white border border-gray-200">
+        <Table className="bg-white/5 backdrop-blur-md border border-white/10 rounded-md">
             <TableCaption className="my-2">A list of your recent applied jobs</TableCaption>
             <TableHeader>
                 <TableRow>

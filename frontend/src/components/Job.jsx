@@ -18,7 +18,7 @@ const Job = ({job}) => {
     }
 
     return (
-        <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
+        <div className='p-5 rounded-md shadow-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>
                     {
@@ -33,40 +33,41 @@ const Job = ({job}) => {
                     <Avatar>
                         <AvatarImage src={
                             job ?. company ?. logo || "https://github.com/shadcn.png"
-                        }/>
+                        }
+                        className="object-cover"/>
                     </Avatar>
                 </Button>
                 <div>
-                    <h1 className='font-medium text-lg'>
+                    <h1 className='font-medium text-lg text-white'>
                         {
                         job ?. company ?. name
                     }</h1>
-                    <p className='text-sm text-gray-500'>India</p>
+                    <p className='text-sm text-gray-300'>India</p>
                 </div>
             </div>
             <div>
-                <h1 className='font-bold text-lg my-2'>
+                <h1 className='font-bold text-lg my-2 text-white'>
                     {
                     job ?. title
                 }</h1>
-                <p className='text-sm text-gray-600'>
+                <p className='text-sm text-gray-400'>
                     {
                     job ?. description
                 }</p>
             </div>
             <div className='flex items-center gap-2 mt-4'>
-                <Badge className={'text-blue-700 font-bold'}
+                <Badge className={'text-blue-300 font-bold'}
                     variant={'ghost'}>
                     {
                     job ?. position
                 }
                     positons</Badge>
-                <Badge className={'text-[#F83002] font-bold'}
+                <Badge className={'text-[#f43f5e] font-bold'}
                     variant={'ghost'}>
                     {
                     job ?. jobType
                 }</Badge>
-                <Badge className={'text-[#7209b7] font-bold'}
+                <Badge className={'text-purple-300 font-bold'}
                     variant={'ghost'}>
                     {
                     job ?. salary
@@ -79,8 +80,8 @@ const Job = ({job}) => {
                         }`)
                     }
                     variant="outline"
-                    className="rounded-lg">Details</Button>
-                <Button className="bg-[#7209b7] rounded-lg">Save For Later</Button>
+                    className="rounded-lg border-white/20 hover:bg-white/10 text-white">Details</Button>
+                <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg">Save For Later</Button>
             </div>
             <div>
                 <ApplyJobDialog open={open}

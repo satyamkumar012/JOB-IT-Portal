@@ -66,7 +66,9 @@ const CompaniesTable = () => {
                             <Avatar>
                                 <AvatarImage src={
                                     company ?. logo || "https://github.com/shadcn.png"
-                                }/>
+                                }
+                                className="object-cover"
+                                />
                             </Avatar>
                         </TableCell>
                         <TableCell>{

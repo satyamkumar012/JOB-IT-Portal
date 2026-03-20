@@ -50,9 +50,9 @@ const CompanyCreate = () => {
         <div>
             <Navbar />
             <div className='max-w-4xl mx-auto'>
-                <div className='my-10 p-8 bg-white border border-gray-100 rounded-xl shadow-lg'>
+                <div className='my-10 p-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg'>
                     <h1 className='font-bold text-2xl'>Your Company Name</h1>
-                    <p className='text-gray-500'>What would you like to give your company name? you can change this later.</p>
+                    <p className='text-gray-300'>What would you like to give your company name? you can change this later.</p>
 
                     <Label className="mt-4 block">Company Name</Label>
                     <Input value={companyName}

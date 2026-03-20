@@ -9,12 +9,13 @@ import {Button} from './ui/button'
 import {UpdateProfileDialog} from './UpdateProfileDialog'
 import {useNavigate} from 'react-router-dom'
 import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
-import {Label} from './ui/label'
 import {Input} from './ui/input'
+import ViewResumeDialog from './ViewResumeDialog'
 
 const Profile = () => {
     useGetAppliedJobs();
     const [open, setOpen] = useState(false);
+    const [resumeOpen, setResumeOpen] = useState(false);
     const {authUser} = useSelector(store => store.auth);
     const navigate = useNavigate();
     const resume = true;
@@ -29,14 +30,16 @@ const Profile = () => {
     return (
         <div>
             <Navbar/>
-            <div className='max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
+            <div className='max-w-4xl mx-auto bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl my-5 p-8'>
                 <div className='flex justify-between'>
                     <div className='flex items-center gap-4'>
                         <Avatar className="h-24 w-24">
                             <AvatarImage src={
                                     authUser ?. profile ?. profilePhoto || "https://github.com/shadcn.png"
                                 }
-                                alt="profile"/>
+                                alt="profile"
+                                className="object-cover"
+                            />
                         </Avatar>
                         <div>
                             <h1 className='font-medium text-xl'>
@@ -85,19 +88,22 @@ const Profile = () => {
                     <Label className="text-md font-bold">Resume</Label>
                     {
                     authUser ?. profile ?. resume ? (
-                        <a target='blank'
-                            href={
-                                authUser ?. profile ?. resume
-                            }
+                        <span onClick={() => setResumeOpen(true)}
                             className='w-full text-blue-500 hover:underline cursor-pointer'>
                             {
-                            authUser ?. profile ?. resumeOriginalName
-                        }</a>
+                            authUser ?. profile ?. resumeOriginalName || "View Resume"
+                        }</span>
                     ) : <span>NA</span>
                 } </div>
             </div>
-            <div className='max-w-4xl mx-auto bg-white rounded-2xl'>
-                <h1 className='text-xl font-bold p-5'>Applied Jobs</h1>
+            <ViewResumeDialog 
+                open={resumeOpen} 
+                setOpen={setResumeOpen} 
+                url={authUser?.profile?.resume} 
+                title={authUser?.profile?.resumeOriginalName || "Resume"}
+            />
+            <div className='max-w-4xl mx-auto bg-white/5 backdrop-blur-sm border border-white/10 p-5 rounded-2xl'>
+                <h1 className='text-xl font-bold'>Applied Jobs</h1>
                 <ApplicationTable/>
             </div>
             <UpdateProfileDialog open={open}

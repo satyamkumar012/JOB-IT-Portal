@@ -12,8 +12,16 @@ const applicationSlice = createSlice({
         },
         setAllApplicants:(state,action) => {
             state.applicants = action.payload;
+        },
+        setApplicantsStatus: (state, action) => {
+            const { id, status } = action.payload;
+            if (state.applicants && state.applicants.applications) {
+                state.applicants.applications = state.applicants.applications.map(app => 
+                    app._id === id ? { ...app, status } : app
+                );
+            }
         }
     }
 });
-export const { setAllAppliedJobs, setAllApplicants } = applicationSlice.actions;
+export const { setAllAppliedJobs, setAllApplicants, setApplicantsStatus } = applicationSlice.actions;
 export default applicationSlice.reducer;

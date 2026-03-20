@@ -1,6 +1,5 @@
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover"
-import {Avatar, AvatarFallback} from "./ui/avatar"
-import {AvatarImage} from "@radix-ui/react-avatar"
+import {Avatar, AvatarImage, AvatarFallback} from "./ui/avatar"
 import {LogOut, User2} from "lucide-react"
 import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
@@ -32,26 +31,24 @@ export function ProfilePopover() {
         <Popover>
             <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
-                    <AvatarImage src={
-                            authUser ?. profile ?. profilePhoto || "https://github.com/shadcn.png"
-                        }
-                        alt="@shadcn"/>
-                    <AvatarFallback>{
-                        authUser ?. fullname ?. [0] ?. toUpperCase() || 'U'
-                    }</AvatarFallback>
+                    <AvatarImage
+                        src={authUser?.profile?.profilePhoto || "https://github.com/shadcn.png"}
+                        alt="@shadcn"
+                        className="object-cover"
+                    />
+                    <AvatarFallback>{authUser?.fullname?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
                 </Avatar>
             </PopoverTrigger>
             <PopoverContent className="w-80">
                 <div className="grid gap-4">
                     <div className=" flex  gap-2 space-y-2">
                         <Avatar className="cursor-pointer">
-                            <AvatarImage src={
-                                    authUser ?. profile ?. profilePhoto || "https://github.com/shadcn.png"
-                                }
-                                alt="@shadcn"/>
-                            <AvatarFallback>{
-                                authUser ?. fullname ?. [0] ?. toUpperCase() || 'U'
-                            }</AvatarFallback>
+                            <AvatarImage
+                                src={authUser?.profile?.profilePhoto || "https://github.com/shadcn.png"}
+                                alt="@shadcn"
+                                className="object-cover"
+                            />
+                            <AvatarFallback>{authUser?.fullname?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
                         </Avatar>
                         <div>
                             <h4 className="font-medium leading-none">

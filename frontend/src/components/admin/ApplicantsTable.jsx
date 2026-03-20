@@ -14,11 +14,19 @@ import {Popover, PopoverContent, PopoverTrigger} from "../ui/popover";
 import {motion} from "framer-motion";
 import axios from "axios";
 import {toast} from "sonner";
+import { setApplicantsStatus } from "@/redux/applicationSlice";
+import { Badge } from "../ui/badge";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import ViewResumeDialog from "../ViewResumeDialog";
 
 const shortlistingStatus = ["Accepted", "Rejected"];
 
 const ApplicantsTable = () => {
     const {applicants} = useSelector(store => store.application);
+    const dispatch = useDispatch();
+    const [resumeOpen, setResumeOpen] = useState(false);
+    const [selectedResume, setSelectedResume] = useState({ url: "", title: "" });
 
 
     const statusHandler = async (status, id) => {
@@ -29,6 +37,7 @@ const ApplicantsTable = () => {
                 status
             }, {withCredentials: true});
             if (res.data.success) {
+                dispatch(setApplicantsStatus({ id, status: status.toLowerCase() }));
                 toast.success(res.data.message);
             }
         } catch (error) {
@@ -47,6 +56,7 @@ const ApplicantsTable = () => {
                     <TableHead>Contact</TableHead>
                     <TableHead>Resume</TableHead>
                     <TableHead>Date</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead className="text-right">Action</TableHead>
                 </TableRow>
             </TableHeader>
@@ -78,18 +88,24 @@ const ApplicantsTable = () => {
                         }</TableCell>
                         <TableCell className="text-blue-600 cursor-pointer">
                             {
-                            item ?. applicant ?. profile ?. resume ? <a href={
-                                    item ?. applicant ?. profile ?. resume
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer">
+                            item ?. applicant ?. profile ?. resume ? <span onClick={() => {
+                                setSelectedResume({
+                                    url: item?.applicant?.profile?.resume,
+                                    title: item?.applicant?.profile?.fullname || "Resume"
+                                });
+                                setResumeOpen(true);
+                            }}
+                                className="hover:underline">
                                 {
-                                item ?. applicant ?. profile ?. resumeOriginalName
-                            }</a> : <span>NA</span>
+                                item ?. applicant ?. profile ?. resumeOriginalName || "View Resume"
+                            }</span> : <span>NA</span>
                         } </TableCell>
                         <TableCell>{
                             item ?. createdAt ?. split("T")[0]
                         }</TableCell>
+                        <TableCell>
+                            <Badge className={`${item?.status === 'rejected' ? 'bg-red-400' : item?.status === 'accepted' ? 'bg-green-400' : 'bg-gray-400'}`}>{item?.status?.toUpperCase()}</Badge>
+                        </TableCell>
                         <TableCell className="float-right cursor-pointer">
                             <Popover>
                                 <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
@@ -112,6 +128,12 @@ const ApplicantsTable = () => {
                     </motion.tr>
                 ))
             } </TableBody>
+            <ViewResumeDialog 
+                open={resumeOpen} 
+                setOpen={setResumeOpen} 
+                url={selectedResume.url} 
+                title={selectedResume.title}
+            />
         </Table>
     )
 }
