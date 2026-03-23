@@ -11,21 +11,21 @@ The platform focuses on user experience, offering intuitive navigation, real-tim
 ## 🚀 Key Features
 
 ### For Job Seekers
-- **Smart Job Search**: Filter jobs by keywords, location, and categories to find the perfect match.
-- **Easy Application**: Apply to jobs with a single click after setting up your profile.
-- **Application Tracking**: Monitor the status of your applications in real-time.
-- **Profile Management**: Build a professional profile to showcase your skills and experience.
+- **Advanced Multi-Category Filtering**: Combine multiple filters like Location, Industry, and Salary (LPA) simultaneously for highly precise job searches.
+- **Embedded Resume Preview**: View your uploaded resume directly in the browser within a professional preview window—no download required.
+- **Smart Global Search**: High-performance search from the Hero Section with "Enter" key support and location-aware backend matching.
+- **Profile Management**: Build a professional profile with high-quality circular avatars and comprehensive experience tracking.
 
 ### For Recruiters & Companies
-- **Job Posting**: Easily create and manage job listings with detailed descriptions.
-- **Applicant Management**: Review applicants, view their profiles, and manage the hiring pipeline.
-- **Company Branding**: Create a company profile to attract the best candidates.
+- **Real-time Applicant Feedback**: Update applicant status (Accepted/Rejected) with instant, color-coded visual feedback in the dashboard.
+- **Inline Resume Review**: Review candidate resumes instantly via the embedded PDF viewer, streamlining the shortlisting process.
+- **Company Branding**: Create and manage detailed company profiles with properly scaled and optimized logos.
 
 ### Technical Highlights
-- **Secure Authentication**: Robust JWT-based auth system for users and admins.
-- **Cloud Storage**: Integrated Cloudinary for efficient handling of profile pictures and logos.
-- **Responsive Design**: Mobile-first approach using Tailwind CSS and Shadcn/ui.
-- **State Management**: Scalable frontend state management with Redux Toolkit.
+- **Premium Aesthetics**: A custom Deep Red theme with glassmorphism effects and smooth micro-animations for a high-end user experience.
+- **Robust State Management**: Advanced category-aware Redux state for persistent and additive filtering logic.
+- **Cloudinary Integration**: Optimized handling of images and documents (PDFs) with correct MIME-type serving for browser compatibility.
+- **Defensive Engineering**: Comprehensive null-safety checks implemented across the application to handle state transitions gracefully.
 
 ## 🔄 How It Works
 
@@ -132,4 +132,4 @@ This project is licensed under the MIT License.
 
 live:-
 
-https://jobitportal.vercel.app/
+https://jobitportal.vercel.app

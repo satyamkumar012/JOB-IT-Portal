@@ -11,6 +11,7 @@ import {useNavigate} from 'react-router-dom'
 import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 import {Input} from './ui/input'
 import ViewResumeDialog from './ViewResumeDialog'
+import { Label } from './ui/label'
 
 const Profile = () => {
     useGetAppliedJobs();
@@ -80,7 +81,7 @@ const Profile = () => {
                     <div className='flex items-center gap-1'>
 
                         {
-                        authUser ?. profile ?. skills.length !== 0 ? authUser ?. profile ?. skills ?. map((skill, index) => <Badge key={index}>
+                        authUser ?. profile ?. skills?.length > 0 ? authUser ?. profile ?. skills ?. map((skill, index) => <Badge key={index}>
                             {skill}</Badge>) : <span>NA</span>
                     } </div>
                 </div>

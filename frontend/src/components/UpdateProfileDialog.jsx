@@ -22,7 +22,7 @@ export function UpdateProfileDialog({ open, setOpen }) {
         email: authUser?.email,
         phoneNumber: authUser?.phoneNumber,
         bio: authUser?.profile?.bio,
-        skills: authUser?.profile?.skills?.map(skill => skill),
+        skills: authUser?.profile?.skills?.join(",") || "",
         file: authUser?.profile?.resume,
         profilePhoto: null,
     });
