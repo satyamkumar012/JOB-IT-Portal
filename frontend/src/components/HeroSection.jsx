@@ -32,7 +32,7 @@ const HeroSection = () => {
                     <h1 className='text-5xl font-bold text-white tracking-tight'>Search, Apply &
                         <br />
                         Get Your
-                        <span className='text-rose-300'> Dream Jobs</span>
+                        <span className='text-indigo-400'> Dream Jobs</span>
                     </h1>
                 </div>
                 <div>

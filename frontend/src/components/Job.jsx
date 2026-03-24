@@ -62,7 +62,7 @@ const Job = ({job}) => {
                     job ?. position
                 }
                     positons</Badge>
-                <Badge className={'text-[#f43f5e] font-bold'}
+                <Badge className={'text-indigo-400 font-bold'}
                     variant={'ghost'}>
                     {
                     job ?. jobType

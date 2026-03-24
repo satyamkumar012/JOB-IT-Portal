@@ -86,7 +86,7 @@ const ApplicantsTable = () => {
                         <TableCell>{
                             item ?. applicant ?. phoneNumber
                         }</TableCell>
-                        <TableCell className="text-blue-600 cursor-pointer">
+                        <TableCell className="text-blue-400 cursor-pointer">
                             {
                             item ?. applicant ?. profile ?. resume ? <span onClick={() => {
                                 setSelectedResume({

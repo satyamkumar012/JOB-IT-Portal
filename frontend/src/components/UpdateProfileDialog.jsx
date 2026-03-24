@@ -112,9 +112,9 @@ export function UpdateProfileDialog({ open, setOpen }) {
 
     return (
         <Dialog open={open}>
-            <DialogContent className="sm:max-w-[425px] bg-white text-black border-none" onInteractOutside={() => setOpen(false)}>
-                <DialogHeader>
-                    <DialogTitle>Update Profile</DialogTitle>
+            <DialogContent className="sm:max-w-[425px] border-none" onInteractOutside={() => setOpen(false)}>
+                <DialogHeader className="p-4 border-b">
+                    <DialogTitle className="">Update Profile</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={submitHandler}>
                     <div className="grid gap-4 py-4">

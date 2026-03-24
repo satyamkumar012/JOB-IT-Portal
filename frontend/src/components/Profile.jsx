@@ -90,7 +90,7 @@ const Profile = () => {
                     {
                     authUser ?. profile ?. resume ? (
                         <span onClick={() => setResumeOpen(true)}
-                            className='w-full text-blue-500 hover:underline cursor-pointer'>
+                            className='w-full text-blue-400 hover:underline cursor-pointer'>
                             {
                             authUser ?. profile ?. resumeOriginalName || "View Resume"
                         }</span>

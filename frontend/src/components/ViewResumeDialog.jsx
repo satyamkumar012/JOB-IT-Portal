@@ -7,9 +7,9 @@ const ViewResumeDialog = ({ open, setOpen, url, title }) => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 overflow-hidden bg-white">
+            <DialogContent className="max-w-4xl h-[90vh] p-0 overflow-hidden">
                 <DialogHeader className="p-4 border-b">
-                    <DialogTitle className="text-black">Resume Preview - {title}</DialogTitle>
+                    <DialogTitle className="">Resume Preview - {title}</DialogTitle>
                 </DialogHeader>
                 <div className="w-full h-full flex flex-col">
                     <iframe

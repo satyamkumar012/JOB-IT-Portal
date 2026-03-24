@@ -77,18 +77,18 @@ const JobDescription = () => {
                         singleJobById ?. title
                     }</h1>
                     <div className='flex items-center gap-2 my-2'>
-                        <Badge className={'text-blue-700 font-bold'}
+                        <Badge className={'text-blue-400 font-bold'}
                             variant={'ghost'}>
                             {
                             singleJobById ?. position
                         }
                             Positions</Badge>
-                        <Badge className={'text-[#F83002] font-bold'}
+                        <Badge className={'text-indigo-400 font-bold'}
                             variant={'ghost'}>
                             {
                             singleJobById ?. jobType
                         }</Badge>
-                        <Badge className={'text-[#7209b7] font-bold'}
+                        <Badge className={'text-purple-400 font-bold'}
                             variant={'ghost'}>
                             {
                             singleJobById ?. salary
@@ -102,7 +102,7 @@ const JobDescription = () => {
                     disabled={isApplied}
                     className={
                         `rounded-lg ${
-                            isApplied ? "bg-gray-600 cursor-not-allowed" : "bg-[#7209b7] hover:bg-[#5f32ad]"
+                            isApplied ? "bg-gray-600 cursor-not-allowed" : "bg-primary hover:bg-primary/90"
                         }`
                 }>
                     {
@@ -114,44 +114,44 @@ const JobDescription = () => {
             </div>
             <div>
                 <h1 className='font-bold my-1'>Role:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. title
                     }</span>
                 </h1>
                 <h1 className='font-bold my-1'>Location:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. location
                     }</span>
                 </h1>
                 <h1 className='font-bold my-1'>Description:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. description
                     }</span>
                 </h1>
                 <h1 className='font-bold my-1'>Experience:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. experienceLevel
                     }</span>
                 </h1>
                 <h1 className='font-bold my-1'>Salary:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. salary
                     }
                         LPA</span>
                 </h1>
                 <h1 className='font-bold my-1'>Total Applicants:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. applications ?. length
                     }</span>
                 </h1>
                 <h1 className='font-bold my-1'>Posted Date:
-                    <span className='pl-4 font-normal text-gray-800'>
+                    <span className='pl-4 font-normal text-white'>
                         {
                         singleJobById ?. createdAt.split("T")[0]
                     }</span>
