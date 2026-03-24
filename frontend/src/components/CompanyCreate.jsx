@@ -11,12 +11,25 @@ import { useNavigate } from 'react-router-dom'
 
 const CompanyCreate = () => {
     const [companyName, setCompanyName] = useState("");
+    const [errors, setErrors] = useState({});
     const [disable, setDisable] = useState(true);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const validate = () => {
+        const newErrors = {};
+        if (!companyName.trim()) {
+            newErrors.companyName = "Company name is required.";
+        } else if (companyName.trim().length < 2) {
+            newErrors.companyName = "Company name must be at least 2 characters.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const createNewCompany = async () => {
+        if (!validate()) return;
         try {
             const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL
                 }/company/register`, {
@@ -42,6 +55,9 @@ const CompanyCreate = () => {
     useEffect(() => {
         if (companyName.trim() !== "") {
             setDisable(false);
+            if (errors.companyName) {
+                setErrors({ ...errors, companyName: "" });
+            }
         } else {
             setDisable(true);
         }
@@ -61,6 +77,7 @@ const CompanyCreate = () => {
                         }
                         className='my-2'
                         placeholder="Job IT Portal, Microsoft etc." />
+                    {errors.companyName && <span className='text-xs text-red-600'>{errors.companyName}</span>}
                     <div className='flex items-center gap-2 my-10'>
                         <Button variant="outline"
                             onClick={

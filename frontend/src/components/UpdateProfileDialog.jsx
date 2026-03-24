@@ -26,11 +26,42 @@ export function UpdateProfileDialog({ open, setOpen }) {
         file: authUser?.profile?.resume,
         profilePhoto: null,
     });
+    const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
 
     const changeHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
+        if (errors[e.target.name]) {
+            setErrors({ ...errors, [e.target.name]: "" });
+        }
     }
+
+    const validate = () => {
+        const newErrors = {};
+        if (!input.fullname || input.fullname.length < 3) {
+            newErrors.fullname = "Full name must be at least 3 characters.";
+        } else if (!/^[a-zA-Z\s]+$/.test(input.fullname)) {
+            newErrors.fullname = "Full name must only contain characters.";
+        }
+        if (!input.email) {
+            newErrors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(input.email)) {
+            newErrors.email = "Email address is invalid.";
+        }
+        if (!input.phoneNumber) {
+            newErrors.phoneNumber = "Phone number is required.";
+        } else if (!/^\d{10}$/.test(input.phoneNumber)) {
+            newErrors.phoneNumber = "Phone number must be exactly 10 digits.";
+        }
+        if (!input.bio) {
+            newErrors.bio = "Bio is required.";
+        }
+        if (!input.skills) {
+            newErrors.skills = "Skills are required.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0];
@@ -44,6 +75,8 @@ export function UpdateProfileDialog({ open, setOpen }) {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        if (!validate()) return;
+        
         const formData = new FormData();
         formData.append('fullname', input.fullname);
         formData.append('email', input.email);
@@ -89,61 +122,71 @@ export function UpdateProfileDialog({ open, setOpen }) {
                             <Label htmlFor="name" className="text-right">
                                 Name
                             </Label>
-                            <Input
-                                id="name"
-                                value={input.fullname}
-                                name="fullname"
-                                onChange={changeHandler}
-                                className="col-span-3"
-                            />
+                            <div className="col-span-3">
+                                <Input
+                                    id="name"
+                                    value={input.fullname}
+                                    name="fullname"
+                                    onChange={changeHandler}
+                                />
+                                {errors.fullname && <span className='text-xs text-red-600'>{errors.fullname}</span>}
+                            </div>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="email" className="text-right">
                                 Email
                             </Label>
-                            <Input
-                                id="email"
-                                value={input.email}
-                                name="email"
-                                onChange={changeHandler}
-                                className="col-span-3"
-                            />
+                            <div className="col-span-3">
+                                <Input
+                                    id="email"
+                                    value={input.email}
+                                    name="email"
+                                    onChange={changeHandler}
+                                />
+                                {errors.email && <span className='text-xs text-red-600'>{errors.email}</span>}
+                            </div>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="number" className="text-right">
                                 Number
                             </Label>
-                            <Input
-                                id="number"
-                                value={input.phoneNumber}
-                                name="phoneNumber"
-                                onChange={changeHandler}
-                                className="col-span-3"
-                            />
+                            <div className="col-span-3">
+                                <Input
+                                    id="number"
+                                    value={input.phoneNumber}
+                                    name="phoneNumber"
+                                    onChange={changeHandler}
+                                />
+                                {errors.phoneNumber && <span className='text-xs text-red-600'>{errors.phoneNumber}</span>}
+                            </div>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="bio" className="text-right">
                                 Bio
                             </Label>
-                            <Input
-                                id="bio"
-                                value={input.bio}
-                                name="bio"
-                                onChange={changeHandler}
-                                className="col-span-3"
-                            />
+                            <div className="col-span-3">
+                                <Input
+                                    id="bio"
+                                    value={input.bio}
+                                    name="bio"
+                                    onChange={changeHandler}
+                                />
+                                {errors.bio && <span className='text-xs text-red-600'>{errors.bio}</span>}
+                            </div>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="skills" className="text-right">
                                 Skills
                             </Label>
-                            <Input
-                                id="skills"
-                                value={input.skills}
-                                name="skills"
-                                onChange={changeHandler}
-                                className="col-span-3"
-                            />
+                            <div className="col-span-3">
+                                <Input
+                                    id="skills"
+                                    value={input.skills}
+                                    name="skills"
+                                    onChange={changeHandler}
+                                />
+                                {errors.skills && <span className='text-xs text-red-600'>{errors.skills}</span>}
+                            </div>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="profilePhoto" className="text-right">

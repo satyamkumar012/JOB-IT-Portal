@@ -30,6 +30,7 @@ const AdminJobSetup = () => {
         position: 0,
         companyId: ""
     });
+    const [errors, setErrors] = useState({});
     const {companies} = useSelector(store => store.company);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -69,7 +70,45 @@ const AdminJobSetup = () => {
             ...input,
             [e.target.name]: e.target.value
         });
+        if (errors[e.target.name]) {
+            setErrors({ ...errors, [e.target.name]: "" });
+        }
     }
+
+    const validate = () => {
+        const newErrors = {};
+        if (!input.title || input.title.length < 3) {
+            newErrors.title = "Title must be at least 3 characters.";
+        }
+        if (!input.description || input.description.length < 10) {
+            newErrors.description = "Description must be at least 10 characters.";
+        }
+        if (!input.requirements) {
+            newErrors.requirements = "Requirements are required.";
+        }
+        if (!input.salary) {
+            newErrors.salary = "Salary is required.";
+        } else if (isNaN(input.salary) || Number(input.salary) <= 0) {
+            newErrors.salary = "Salary must be a positive number.";
+        }
+        if (!input.location) {
+            newErrors.location = "Location is required.";
+        }
+        if (!input.jobType) {
+            newErrors.jobType = "Job Type is required.";
+        }
+        if (!input.experience) {
+            newErrors.experience = "Experience is required.";
+        }
+        if (input.position <= 0) {
+            newErrors.position = "Number of positions must be at least 1.";
+        }
+        if (!input.companyId) {
+            newErrors.companyId = "Please select a company.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
     const handleSelectChange = (value) => {
         const selectedCompany = companies.find(company => company.name.toLowerCase() === value);
         setInput({
@@ -80,6 +119,7 @@ const AdminJobSetup = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        if (!validate()) return;
         try {
             dispatch(setLoading(true));
             const res = await axios.put(`${
@@ -120,6 +160,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.title && <span className='text-xs text-red-600'>{errors.title}</span>}
                         </div>
                         <div>
                             <Label>Description</Label>
@@ -129,6 +170,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.description && <span className='text-xs text-red-600'>{errors.description}</span>}
                         </div>
                         <div>
                             <Label>Requirements</Label>
@@ -138,6 +180,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.requirements && <span className='text-xs text-red-600'>{errors.requirements}</span>}
                         </div>
                         <div>
                             <Label>Salary
@@ -149,6 +192,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.salary && <span className='text-xs text-red-600'>{errors.salary}</span>}
                         </div>
                         <div>
                             <Label>Location</Label>
@@ -158,6 +202,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.location && <span className='text-xs text-red-600'>{errors.location}</span>}
                         </div>
                         <div>
                             <Label>Job Type</Label>
@@ -167,6 +212,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.jobType && <span className='text-xs text-red-600'>{errors.jobType}</span>}
                         </div>
                         <div>
                             <Label>Experience Level
@@ -178,6 +224,7 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.experience && <span className='text-xs text-red-600'>{errors.experience}</span>}
                         </div>
                         <div>
                             <Label>No of Position</Label>
@@ -187,32 +234,36 @@ const AdminJobSetup = () => {
                                 }
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"/>
+                            {errors.position && <span className='text-xs text-red-600'>{errors.position}</span>}
                         </div>
                         {
                         companies.length !== 0 && (
-                            <Select value={selectedCompanyName}
-                                onValueChange={handleSelectChange}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select a Company"/>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup> {
-                                        companies && companies.map((company) => {
-                                            return (
-                                                <SelectItem key={
-                                                        company ?. _id
-                                                    }
-                                                    value={
-                                                        company ?. name.toLowerCase()
-                                                }>
-                                                    {
-                                                    company ?. name
-                                                } </SelectItem>
-                                            )
-                                        })
-                                    } </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                            <div className='flex flex-col gap-1'>
+                                <Select value={selectedCompanyName}
+                                    onValueChange={handleSelectChange}>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Select a Company"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup> {
+                                            companies && companies.map((company) => {
+                                                return (
+                                                    <SelectItem key={
+                                                            company ?. _id
+                                                        }
+                                                        value={
+                                                            company ?. name.toLowerCase()
+                                                    }>
+                                                        {
+                                                        company ?. name
+                                                    } </SelectItem>
+                                                )
+                                            })
+                                        } </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                {errors.companyId && <span className='text-xs text-red-600'>{errors.companyId}</span>}
+                            </div>
                         )
                     } </div>
                     <Button onClick={submitHandler}

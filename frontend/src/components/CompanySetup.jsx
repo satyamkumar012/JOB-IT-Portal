@@ -21,6 +21,7 @@ const CompanySetup = () => {
         location: '',
         file: null
     });
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
 
@@ -29,6 +30,30 @@ const CompanySetup = () => {
             ...input,
             [e.target.name]: e.target.value
         });
+        if (errors[e.target.name]) {
+            setErrors({
+                ...errors,
+                [e.target.name]: ""
+            });
+        }
+    };
+
+    const validate = () => {
+        const newErrors = {};
+        if (!input.name.trim()) {
+            newErrors.name = "Company name is required.";
+        }
+        if (!input.description.trim()) {
+            newErrors.description = "Description is required.";
+        }
+        if (input.website && !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(input.website)) {
+            newErrors.website = "Please enter a valid URL.";
+        }
+        if (!input.location.trim()) {
+            newErrors.location = "Location is required.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const changeFileHandler = (e) => {
@@ -41,6 +66,7 @@ const CompanySetup = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        if (!validate()) return;
         const formData = new FormData();
         formData.append('name', input.name);
         formData.append('description', input.description);
@@ -105,6 +131,7 @@ const CompanySetup = () => {
                                     input.name
                                 }
                                 onChange={changeEventHandler}/>
+                            {errors.name && <span className='text-xs text-red-600'>{errors.name}</span>}
                         </div>
                         <div>
                             <Label>Description</Label>
@@ -113,6 +140,7 @@ const CompanySetup = () => {
                                     input.description
                                 }
                                 onChange={changeEventHandler}/>
+                            {errors.description && <span className='text-xs text-red-600'>{errors.description}</span>}
                         </div>
                         <div>
                             <Label>Website</Label>
@@ -121,6 +149,7 @@ const CompanySetup = () => {
                                     input.website
                                 }
                                 onChange={changeEventHandler}/>
+                            {errors.website && <span className='text-xs text-red-600'>{errors.website}</span>}
                         </div>
                         <div>
                             <Label>Location</Label>
@@ -129,6 +158,7 @@ const CompanySetup = () => {
                                     input.location
                                 }
                                 onChange={changeEventHandler}/>
+                            {errors.location && <span className='text-xs text-red-600'>{errors.location}</span>}
                         </div>
                         <div>
                             <Label>Logo</Label>
