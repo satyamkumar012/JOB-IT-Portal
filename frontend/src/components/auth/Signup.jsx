@@ -20,6 +20,7 @@ const Singup = () => {
         role: "",
         file: ""
     });
+    const [errors, setErrors] = useState({});
     const {loading, authUser} = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -29,16 +30,54 @@ const Singup = () => {
             ...input,
             [e.target.name]: e.target.value
         });
+        // Clear error when user starts typing
+        if (errors[e.target.name]) {
+            setErrors({
+                ...errors,
+                [e.target.name]: ""
+            });
+        }
     };
     const changeFileHandler = (e) => {
         setInput({
             ...input,
-            file: e.target.files ?. [0]
+            file: e.target.files?. [0]
         });
     }
 
+    const validate = () => {
+        const newErrors = {};
+        if (!input.fullname || input.fullname.length < 3) {
+            newErrors.fullname = "Full name must be at least 3 characters.";
+        } else if (!/^[a-zA-Z\s]+$/.test(input.fullname)) {
+            newErrors.fullname = "Full name must only contain characters.";
+        }
+        if (!input.email) {
+            newErrors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(input.email)) {
+            newErrors.email = "Email address is invalid.";
+        }
+        if (!input.phoneNumber) {
+            newErrors.phoneNumber = "Phone number is required.";
+        } else if (!/^\d{10}$/.test(input.phoneNumber)) {
+            newErrors.phoneNumber = "Phone number must be exactly 10 digits.";
+        }
+        if (!input.password) {
+            newErrors.password = "Password is required.";
+        } else if (input.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters.";
+        }
+        if (!input.role) {
+            newErrors.role = "Please select a role.";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const submitHandler = async (e) => {
         e.preventDefault();
+        if (!validate()) return;
+        
         const formData = new FormData();
         formData.append("fullname", input.fullname);
         formData.append("email", input.email);
@@ -92,6 +131,7 @@ const Singup = () => {
                             name="fullname"
                             onChange={changeEventHandler}
                             placeholder="Gupta"/>
+                        {errors.fullname && <span className='text-xs text-red-600'>{errors.fullname}</span>}
                     </div>
                     <div className='my-2'>
                         <Label>Email</Label>
@@ -102,6 +142,7 @@ const Singup = () => {
                             name="email"
                             onChange={changeEventHandler}
                             placeholder="gupta@gmail.com"/>
+                        {errors.email && <span className='text-xs text-red-600'>{errors.email}</span>}
                     </div>
                     <div className='my-2'>
                         <Label>Phone Number</Label>
@@ -112,6 +153,7 @@ const Singup = () => {
                             name="phoneNumber"
                             onChange={changeEventHandler}
                             placeholder="+918080808080"/>
+                        {errors.phoneNumber && <span className='text-xs text-red-600'>{errors.phoneNumber}</span>}
                     </div>
                     <div className='my-2'>
                         <Label>Password</Label>
@@ -122,6 +164,7 @@ const Singup = () => {
                             name="password"
                             onChange={changeEventHandler}
                             placeholder="password"/>
+                        {errors.password && <span className='text-xs text-red-600'>{errors.password}</span>}
                     </div>
                     <div className='flex flex-col gap-4 my-5'>
                         <RadioGroup className="flex items-center gap-4">
@@ -144,6 +187,7 @@ const Singup = () => {
                                 <Label htmlFor="r2">Recruiter</Label>
                             </div>
                         </RadioGroup>
+                        {errors.role && <span className='text-xs text-red-600'>{errors.role}</span>}
                         <div className='flex items-center gap-2'>
                             <Label>Profile</Label>
                             <Input accept="image/*" type="file"
