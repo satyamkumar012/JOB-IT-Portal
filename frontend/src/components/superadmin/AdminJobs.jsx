@@ -61,9 +61,9 @@ const AdminJobs = () => {
     );
 
     return (
-        <div className='flex min-h-screen bg-slate-50'>
+        <div className='flex min-h-screen bg-slate-50 bg-gradient-to-br from-slate-50 via-slate-50 to-indigo-50/30'>
             <AdminSidebar />
-            <main className='flex-1 p-8'>
+            <main className='flex-1 p-8 overflow-y-auto no-scrollbar'>
                 <div className='max-w-7xl mx-auto'>
                     <div className='mb-8 flex justify-between items-center'>
                         <div>

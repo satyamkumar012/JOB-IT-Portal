@@ -7,18 +7,23 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table"
-import {Edit2, Eye, MoreHorizontal} from "lucide-react";
-import {useSelector} from "react-redux"
+import {Edit2, Eye, MoreHorizontal, Trash2} from "lucide-react";
+import {useDispatch, useSelector} from "react-redux"
 import {Popover, PopoverContent, PopoverTrigger} from "./ui/popover";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {motion} from "framer-motion";
+import axios from "axios";
+import { removeAdminJob } from "@/redux/jobSlice";
+import { toast } from "sonner";
 
 
 const JobTable = () => {
     const {adminJobs, searchAdminJobs} = useSelector(store => store.job);
     const [filterJob, setFilterJob] = useState(adminJobs || []);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const filterData = adminJobs ?. filter((job) => {
             if (!searchAdminJobs) 
@@ -29,6 +34,22 @@ const JobTable = () => {
         }) || [];
         setFilterJob(filterData);
     }, [adminJobs, searchAdminJobs])
+
+    const deleteJobHandler = async (jobId) => {
+        if (!window.confirm("Are you sure you want to delete this job? This action cannot be undone.")) return;
+
+        try {
+            const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/job/delete/${jobId}`, {
+                withCredentials: true
+            });
+            if (res.data.success) {
+                dispatch(removeAdminJob(jobId));
+                toast.success(res.data.message);
+            }
+        } catch (error) {
+            toast.error(error.response.data.message || "Failed to delete job");
+        }
+    };
 
     return (
         <Table>
@@ -67,31 +88,27 @@ const JobTable = () => {
                         <TableCell>{
                             job ?. createdAt.split("T")[0]
                         }</TableCell>
-                        <TableCell className="float-right cursor-pointer">
+                        <TableCell className="text-right cursor-pointer">
                             <Popover>
                                 <PopoverTrigger><MoreHorizontal/></PopoverTrigger>
                                 <PopoverContent className="w-32">
                                     <div onClick={
-                                            () => {
-                                                navigate(`/admin/jobs/${
-                                                    job ?. _id
-                                                }/edit`);
-                                            }
+                                            () => navigate(`/admin/jobs/${job?._id}/edit`)
                                         }
                                         className="flex w-fit items-center gap-2 cursor-pointer">
                                         <Edit2 className="w-4"/>
                                         <span>Edit</span>
                                     </div>
                                     <div onClick={
-                                            () => {
-                                                navigate(`/admin/jobs/${
-                                                    job ?. _id
-                                                }/applicants`);
-                                            }
+                                            () => navigate(`/admin/jobs/${job?._id}/applicants`)
                                         }
                                         className="flex w-fit items-center gap-2 cursor-pointer mt-2">
                                         <Eye className="w-4"/>
                                         <span>Applicants</span>
+                                    </div>
+                                    <div onClick={() => deleteJobHandler(job?._id)} className="flex w-fit items-center gap-2 cursor-pointer mt-2 text-red-600">
+                                        <Trash2 className="w-4"/>
+                                        <span>Delete</span>
                                     </div>
                                 </PopoverContent>
                             </Popover>

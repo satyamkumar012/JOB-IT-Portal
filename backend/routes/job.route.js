@@ -5,7 +5,8 @@ import {
     getJobById,
     getJobByLoggedAdminUser,
     postJob,
-    updateJob
+    updateJob,
+    deleteJob
 } from "../controllers/job.controller.js";
 
 const router = express.Router();
@@ -15,6 +16,7 @@ router.route("/all").get(isAuthenticated, getAllJobs);
 router.route("/getadminjobs").get(isAuthenticated, getJobByLoggedAdminUser);
 router.route("/:id").get(isAuthenticated, getJobById);
 router.route("/update/:id").put(isAuthenticated, updateJob);
+router.route("/delete/:id").delete(isAuthenticated, deleteJob);
 
 
 export default router;

@@ -1,4 +1,5 @@
 import {Job} from "../models/job.model.js";
+import {Application} from "../models/application.model.js";
 
 export const postJob = async (req, res) => {
     try {
@@ -140,5 +141,32 @@ export const getJobByLoggedAdminUser = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(400).json({message: error});
+    }
+}
+
+export const deleteJob = async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const userId = req.id;
+
+        const job = await Job.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ message: "Job not found.", success: false });
+        }
+
+        // Check if the job was created by the logged-in user
+        if (job.created_by.toString() !== userId) {
+            return res.status(403).json({ message: "You don't have permission to delete this job.", success: false });
+        }
+
+        await Job.findByIdAndDelete(jobId);
+
+        // Also delete applications for this job
+        await Application.deleteMany({ job: jobId });
+
+        return res.status(200).json({ message: "Job deleted successfully.", success: true });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Failed to delete job.", success: false });
     }
 }
