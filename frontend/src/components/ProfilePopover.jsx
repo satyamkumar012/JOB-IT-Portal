@@ -73,6 +73,14 @@ export function ProfilePopover() {
                             </Link>
                         )
                     }
+                    {
+                        (authUser && authUser ?. role === 'admin') && (
+                            <Link to="/admin/dashboard" className="flex w-fit items-center gap-2 cursor-pointer">
+                                <User2/>
+                                <p>Admin Dashboard</p>
+                            </Link>
+                        )
+                    }
 
                         <div onClick={logoutHandler}
                             className=" flex w-fit items-center gap-2 cursor-pointer">

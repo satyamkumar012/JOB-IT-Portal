@@ -15,6 +15,10 @@ import CreateJobs from './components/admin/CreateJobs'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import Applicants from './components/admin/Applicants'
 import AdminJobSetup from './components/admin/AdminJobSetup'
+import AdminDashboard from './components/superadmin/AdminDashboard'
+import AdminUsers from './components/superadmin/AdminUsers'
+import AdminJobs from './components/superadmin/AdminJobs'
+import SuperAdminProtectedRoute from './components/superadmin/SuperAdminProtectedRoute'
 
 const appRouter = createBrowserRouter([
     {
@@ -57,6 +61,19 @@ const appRouter = createBrowserRouter([
     }, {
         path: "/admin/companies/:id",
         element: <ProtectedRoute><CompanySetup/></ProtectedRoute>
+    },
+    // SuperAdmin Dashboard Routes
+    {
+        path: "/admin/dashboard",
+        element: <SuperAdminProtectedRoute><AdminDashboard/></SuperAdminProtectedRoute>
+    },
+    {
+        path: "/admin/users",
+        element: <SuperAdminProtectedRoute><AdminUsers/></SuperAdminProtectedRoute>
+    },
+    {
+        path: "/admin/jobs/manage", // Changed to avoid collision with existing recruiter /admin/jobs
+        element: <SuperAdminProtectedRoute><AdminJobs/></SuperAdminProtectedRoute>
     },
 ])
 

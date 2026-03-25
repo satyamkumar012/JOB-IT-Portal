@@ -20,6 +20,10 @@ const Navbar = () => {
                                     <li className='hover:text-primary transition-colors cursor-pointer'><Link to={"/admin/companies"}>Companies</Link></li>
                                     <li className='hover:text-primary transition-colors cursor-pointer'><Link to={"/admin/jobs"}>Jobs</Link></li>
                                 </>
+                            ) : authUser && authUser.role === "admin" ? (
+                                <>
+                                    <li className='hover:text-primary transition-colors cursor-pointer'><Link to={"/admin/dashboard"}>Admin Dashboard</Link></li>
+                                </>
                             ) : (
                                 <>
                                     <li className='hover:text-primary transition-colors cursor-pointer'><Link to={"/"}>Home</Link></li>

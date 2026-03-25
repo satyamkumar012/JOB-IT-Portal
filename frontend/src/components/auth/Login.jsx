@@ -70,13 +70,15 @@ const Login = () => {
             dispatch(setLoading(false));
         }
     }
-    useEffect(()=>{
-        if(authUser?.role === 'recruiter'){
+    useEffect(() => {
+        if (authUser?.role === 'recruiter') {
             navigate("/admin/companies");
-        }else if(authUser?.role === 'student'){
+        } else if (authUser?.role === 'student') {
             navigate("/");
+        } else if (authUser?.role === 'admin') {
+            navigate("/admin/dashboard");
         }
-    },[])
+    }, [authUser, navigate])
     return (
         <>
             <Navbar />
@@ -125,6 +127,16 @@ const Login = () => {
                                 onChange={changeEventHandler}
                             />
                             <Label htmlFor="r2">Recruiter</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <input
+                                type="radio"
+                                name="role"
+                                value="admin"
+                                checked={input.role === 'admin'}
+                                onChange={changeEventHandler}
+                            />
+                            <Label htmlFor="r3">Admin</Label>
                         </div>
                     </RadioGroup>
                     {errors.role && <span className='text-xs text-red-600'>{errors.role}</span>}
